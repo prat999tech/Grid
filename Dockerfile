@@ -14,7 +14,9 @@ RUN npm run build        # production config (relative API/WS URLs)
 FROM maven:3.9-eclipse-temurin-21 AS backend
 WORKDIR /app/backend
 COPY backend/pom.xml ./
-RUN mvn -q dependency:go-offline
+# Warm the dependency cache for faster rebuilds. Non-fatal: if it can't pre-fetch
+# everything, the package step below downloads whatever's missing.
+RUN mvn -q -B dependency:go-offline -DskipTests || true
 COPY backend/src ./src
 # Drop the compiled Angular app into Spring Boot's static folder so it is served at "/".
 COPY --from=frontend /app/frontend/dist/realtime-grid/browser/ ./src/main/resources/static/
