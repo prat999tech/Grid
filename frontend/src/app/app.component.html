@@ -1,0 +1,15 @@
+@if (!store.user()) {
+  <app-login (loggedIn)="onLoggedIn($event)" />
+} @else {
+  <div class="app">
+    <app-toolbar />
+    <main class="layout">
+      <app-grid />
+      <app-leaderboard />
+    </main>
+  </div>
+
+  @if (store.toast(); as t) {
+    <div class="toast">{{ t.message }}</div>
+  }
+}

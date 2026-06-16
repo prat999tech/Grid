@@ -1,0 +1,18 @@
+<aside class="panel">
+  <h2>Leaderboard</h2>
+
+  @if (store.leaderboard().length === 0) {
+    <p class="empty">No tiles captured yet. Be the first!</p>
+  } @else {
+    <ol class="list">
+      @for (entry of store.leaderboard(); track entry.userId; let i = $index) {
+        <li class="row" [class.me]="isMe(entry.userId)">
+          <span class="rank">{{ i + 1 }}</span>
+          <span class="swatch" [style.background]="entry.color"></span>
+          <span class="name">{{ entry.name }}</span>
+          <span class="count">{{ entry.tiles }}</span>
+        </li>
+      }
+    </ol>
+  }
+</aside>

@@ -1,0 +1,16 @@
+# Java / Maven
+backend/target/
+
+# Frontend bundled into the backend only during the Docker build — never committed.
+backend/src/main/resources/static/
+
+# Node / Angular
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Logs / IDE
+*.log
+.idea/
+.vscode/
+*.iml

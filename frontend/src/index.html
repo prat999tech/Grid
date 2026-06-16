@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Capture Grid — real-time board</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--
+    sockjs-client is a Node-oriented library that expects a global named `global`,
+    which does not exist in browsers. We map it to `window` here, BEFORE the app
+    bundle loads, otherwise sockjs throws "global is not defined" on import and the
+    whole Angular app fails to start (you'd see only the page background).
+  -->
+  <script>window.global = window;</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

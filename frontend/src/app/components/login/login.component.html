@@ -1,0 +1,42 @@
+<div class="screen">
+  <div class="card">
+    <div class="logo">◧</div>
+    <h1>Capture Grid</h1>
+    <p class="sub">Claim tiles. Watch everyone play in real time.</p>
+
+    <form (ngSubmit)="submit()">
+      <label for="name">Display name</label>
+      <input
+        id="name"
+        name="name"
+        [(ngModel)]="name"
+        maxlength="20"
+        autocomplete="off"
+        placeholder="e.g. Ada"
+        autofocus
+      />
+
+      <label>Pick a colour <span class="optional">(optional)</span></label>
+      <div class="swatches">
+        @for (c of swatches; track c) {
+          <button
+            type="button"
+            class="swatch"
+            [class.selected]="color === c"
+            [style.background]="c"
+            (click)="pick(c)"
+            [attr.aria-label]="'Colour ' + c"
+          ></button>
+        }
+      </div>
+
+      @if (error()) {
+        <div class="err">{{ error() }}</div>
+      }
+
+      <button type="submit" class="primary" [disabled]="!name.trim() || busy()">
+        {{ busy() ? 'Joining…' : 'Enter the board' }}
+      </button>
+    </form>
+  </div>
+</div>

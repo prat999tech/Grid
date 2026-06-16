@@ -1,0 +1,37 @@
+<div class="board-wrap">
+  <div
+    #viewport
+    class="viewport"
+    (wheel)="onWheel($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="endPan()"
+    (pointerleave)="endPan()"
+  >
+    <div
+      class="grid"
+      [style.grid-template-columns]="'repeat(' + store.cols() + ', var(--tile))'"
+      [style.transform]="'translate(' + panX() + 'px,' + panY() + 'px) scale(' + scale() + ')'"
+    >
+      @for (tile of store.tiles(); track trackById($index, tile)) {
+        <button
+          class="tile"
+          [class.owned]="tile.ownerId !== null"
+          [class.mine]="isMine(tile)"
+          [class.pop]="store.recentlyChanged().has(tile.id)"
+          [style.background]="tile.color || null"
+          [title]="tile.ownerName ? tile.ownerName + ' • (' + tile.x + ',' + tile.y + ')' : 'Unclaimed • (' + tile.x + ',' + tile.y + ')'"
+          (pointerdown)="onPointerDown($event)"
+          (pointerup)="onPointerUp(tile)"
+        ></button>
+      }
+    </div>
+  </div>
+
+  <div class="zoom-controls">
+    <button (click)="zoomIn()" title="Zoom in">＋</button>
+    <button (click)="zoomOut()" title="Zoom out">－</button>
+    <button (click)="reset()" title="Reset view">⟲</button>
+  </div>
+
+  <div class="hint">Click a tile to capture · drag to pan · scroll to zoom</div>
+</div>

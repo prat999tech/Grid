@@ -1,0 +1,112 @@
+.board-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  touch-action: none; /* let us handle pan/zoom ourselves */
+}
+
+.viewport:active {
+  cursor: grabbing;
+}
+
+.grid {
+  --tile: 20px;
+  display: grid;
+  gap: 2px;
+  padding: 16px;
+  transform-origin: center center;
+  transition: transform 0.06s linear;
+  will-change: transform;
+}
+
+.tile {
+  width: var(--tile);
+  height: var(--tile);
+  border: none;
+  border-radius: 4px;
+  background: #1b2238;
+  padding: 0;
+  transition: transform 0.1s ease, background 0.25s ease, box-shadow 0.15s ease;
+}
+
+.tile:hover {
+  transform: scale(1.18);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+  z-index: 2;
+}
+
+.tile.owned {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+/* Highlight the tiles the current player owns. */
+.tile.mine {
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+/* A quick pop whenever a tile changes hands — fires for everyone's captures. */
+.tile.pop {
+  animation: pop 0.5s ease;
+  z-index: 3;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.4); filter: brightness(2); }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.zoom-controls {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zoom-controls button {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(22, 29, 49, 0.9);
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  backdrop-filter: blur(6px);
+  transition: background 0.15s, transform 0.05s;
+}
+
+.zoom-controls button:hover {
+  background: var(--panel-2);
+}
+
+.zoom-controls button:active {
+  transform: translateY(1px);
+}
+
+.hint {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  font-size: 12px;
+  color: var(--muted);
+  background: rgba(11, 15, 26, 0.6);
+  padding: 6px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+}

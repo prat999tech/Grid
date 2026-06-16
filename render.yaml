@@ -1,0 +1,29 @@
+# One-click deploy blueprint for Render (https://render.com).
+# In the Render dashboard:  New +  ->  Blueprint  ->  point it at this repo.
+# It creates a free PostgreSQL database and a Docker web service, and wires the
+# database credentials into the app automatically.
+
+databases:
+  - name: grid-db
+    plan: free
+    databaseName: gridapp
+    user: gridapp
+
+services:
+  - type: web
+    name: capture-grid
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DB_HOST
+        fromDatabase: { name: grid-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: grid-db, property: port }
+      - key: DB_NAME
+        fromDatabase: { name: grid-db, property: database }
+      - key: DB_USER
+        fromDatabase: { name: grid-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: grid-db, property: password }
